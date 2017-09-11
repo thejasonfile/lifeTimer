@@ -1,55 +1,46 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
-
-var options = [
-  { value: 'January', label: 'January' },
-  { value: 'February', label: 'February' },
-  { value: 'March', label: 'March' },
-  { value: 'April', label: 'April' },
-  { value: 'May', label: 'May' },
-  { value: 'June', label: 'June' },
-  { value: 'July', label: 'July' },
-  { value: 'August', label: 'August' },
-  { value: 'September', label: 'September' },
-  { value: 'October', label: 'October' },
-  { value: 'November', label: 'November' },
-  { value: 'December', label: 'December' }
-];
+import DateForm from './DateForm';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <DateForm />
-      </div>
-    );
-  }
-}
-
-class DateForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      month : '',
+      month : 'January',
       date : '',
       year : ''
-    };
+    }
 
     this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleYearChange = this.handleYearChange.bind(this);
   }
 
-  handleMonthChange(val) {
-    this.setState({month: val.value})
+  handleMonthChange(event) {
+    this.setState({month: event.target.value})
+  }
+
+  handleDateChange(event) {
+    this.setState({date: event.target.value})
+  }
+
+  handleYearChange(event) {
+    this.setState({year: event.target.value})
   }
 
   render() {
     return (
-      <div className="DateForm">
-        <Select name="form-field-name" value={this.state.month} options={options} onChange={this.handleMonthChange} placeholder="Select month..."/>
+      <div className="App">
+        <DateForm
+          month={this.state.month}
+          date={this.state.date}
+          year={this.state.year}
+          changeMonth={this.handleMonthChange}
+          changeDate={this.handleDateChange}
+          changeYear={this.handleYearChange}
+        />
       </div>
-    )
+    );
   }
 }
 
