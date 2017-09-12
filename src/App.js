@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DateForm from './DateForm';
+import Results from './Results';
 
 class App extends Component {
   constructor(props) {
@@ -8,12 +9,23 @@ class App extends Component {
     this.state = {
       month : 'January',
       date : '',
-      year : ''
+      year : '',
+      birthday: 0,
+      difference: 0
     }
 
     this.handleMonthChange = this.handleMonthChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
+    this.calculateBirthday = this.calculateBirthday.bind(this);
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => this.setState({ difference: (Date.now() / 1000 - this.state.birthday / 1000).toFixed(0)}), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   handleMonthChange(event) {
@@ -28,6 +40,11 @@ class App extends Component {
     this.setState({year: event.target.value})
   }
 
+  calculateBirthday(year, month, date) {
+    var birthdayDate = new Date(year, month, date);
+    this.setState({birthday: birthdayDate.getTime()});
+  }
+
   render() {
     return (
       <div className="App">
@@ -38,7 +55,11 @@ class App extends Component {
           changeMonth={this.handleMonthChange}
           changeDate={this.handleDateChange}
           changeYear={this.handleYearChange}
+          calculateNow={this.calculateNow}
+          calculateBirthday={this.calculateBirthday}
+          updateDifference={this.updateDifference}
         />
+      <Results totalSeconds={this.state.difference}/>
       </div>
     );
   }
