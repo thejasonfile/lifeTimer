@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import Results from './Results';
 
@@ -8,14 +8,17 @@ class DateForm extends Component {
     super(props);
 
     this.state = {
-      month : 'January',
+      month : '0',
       date : '',
-      year : ''
+      year : '',
+      birthday: ''
     };
 
     this.handleMonthChange = this.handleMonthChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
+    this.calculateBirthday = this.calculateBirthday.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleMonthChange(event) {
@@ -28,6 +31,16 @@ class DateForm extends Component {
 
   handleYearChange(event) {
     this.setState({year: event.target.value})
+  }
+
+  calculateBirthday(year, month, date) {
+    var birthdayDate = new Date(year, month, date);
+    return birthdayDate.getTime();
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    this.calculateBirthday(this.state.year, this.state.month, this.state.date);
   }
 
   monthsList() {
@@ -49,29 +62,21 @@ class DateForm extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="DateForm">
-          <form>
-            <label>Month</label>
-            <select value={this.state.month} onChange={this.handleMonthChange}>
-              {this.monthsList().map(month => <option key={month.value} value={month.value}>{month.name}</option>
-              )}
-            </select>
-          <label>Date</label>
-          <input type="number" value={this.state.date} onChange={this.handleDateChange} />
-            <label>Year</label>
-            <input type="number" value={this.state.year} onChange={this.handleYearChange} />
-          <Link to="/results"><input type="submit" value="Submit" /></Link>
-          </form>
-          <Route
-            path="/results"
-            month={this.state.month}
-            date={this.state.date}
-            year={this.state.year}
-            component={Results}
-          />
-        </div>
-      </Router>
+      <div className="DateForm">
+        <form onSubmit={this.handleSubmit}>
+          <label>Month</label>
+          <select value={this.state.month} onChange={this.handleMonthChange}>
+            {this.monthsList().map(month => <option key={month.value} value={month.value}>{month.name}</option>
+            )}
+          </select>
+        <label>Date</label>
+        <input type="number" value={this.state.date} onChange={this.handleDateChange} />
+          <label>Year</label>
+          <input type="number" value={this.state.year} onChange={this.handleYearChange} />
+        <Link to='/results'><input type="submit" value="Submit" /></Link>
+        </form>
+        <Results calculateBirthday={this.calculateBirthday}/>
+      </div>
     )
   }
 }
