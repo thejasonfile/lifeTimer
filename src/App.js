@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+
 import DateForm from './DateForm';
 import Results from './Results';
 
@@ -47,20 +49,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <DateForm
-          month={this.state.month}
-          date={this.state.date}
-          year={this.state.year}
-          changeMonth={this.handleMonthChange}
-          changeDate={this.handleDateChange}
-          changeYear={this.handleYearChange}
-          calculateNow={this.calculateNow}
-          calculateBirthday={this.calculateBirthday}
-          updateDifference={this.updateDifference}
-        />
-      <Results totalSeconds={this.state.difference}/>
-      </div>
+      <Router>
+        <div className="App">
+          <DateForm
+            month={this.state.month}
+            date={this.state.date}
+            year={this.state.year}
+            changeMonth={this.handleMonthChange}
+            changeDate={this.handleDateChange}
+            changeYear={this.handleYearChange}
+            calculateNow={this.calculateNow}
+            calculateBirthday={this.calculateBirthday}
+            updateDifference={this.updateDifference}
+          />
+        <Route path="/results" totalSeconds={this.state.difference} component={Results} />
+        </div>
+      </Router>
     );
   }
 }

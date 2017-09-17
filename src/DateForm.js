@@ -1,4 +1,7 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
+import Results from './Results';
 
 const DateForm = (props) => {
   let months = [
@@ -22,20 +25,23 @@ const DateForm = (props) => {
   }
 
   return (
-    <div className="DateForm">
-      <form onSubmit={handleSubmit}>
-        <label>Month</label>
-        <select value={props.month} onChange={props.changeMonth}>
-          {months.map(month => <option key={month.value} value={month.value}>{month.name}</option>
-          )}
-        </select>
-      <label>Date</label>
-      <input type="number" value={props.date} onChange={props.changeDate} />
-        <label>Year</label>
-        <input type="number" value={props.year} onChange={props.changeYear} />
-      <input type="submit" value="Submit" />
-      </form>
-    </div>
+    <Router>
+      <div className="DateForm">
+        <form onSubmit={handleSubmit}>
+          <label>Month</label>
+          <select value={props.month} onChange={props.changeMonth}>
+            {months.map(month => <option key={month.value} value={month.value}>{month.name}</option>
+            )}
+          </select>
+        <label>Date</label>
+        <input type="number" value={props.date} onChange={props.changeDate} />
+          <label>Year</label>
+          <input type="number" value={props.year} onChange={props.changeYear} />
+        <Link to="/results"><input type="submit" value="Submit" /></Link>
+        </form>
+        <Route path="/results" component={Results} />
+      </div>
+    </Router>
   )
 }
 
