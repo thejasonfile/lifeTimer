@@ -26,20 +26,34 @@ class Results extends Component {
   calculateDifference() {
     var now = Date.now();
     var difference = (now / 1000 - this.props.birthday / 1000).toFixed(0);
+    difference = Number(difference);
+    difference = difference.toLocaleString();
     this.setState({difference});
   };
 
   calculateTimeOnSite() {
     var currentTime = this.state.timeOnSite;
-    var newTime = currentTime + 1;
+    var newTime = Number(currentTime) + 1;
+    newTime = newTime.toLocaleString();
     this.setState({timeOnSite: newTime});
+  }
+
+  renderTimes() {
+    return (
+      <div>
+        <h1>You've been alive for {this.state.difference} seconds.</h1>
+        <h1>You've spent {this.state.timeOnSite} of those seconds here.</h1>
+      </div>
+    )
   }
 
   render() {
     return(
       <div>
-        <h1>You've been alive for {this.state.difference} seconds.</h1>
-        <h1>You've spent {this.state.timeOnSite} of those seconds here.</h1>
+        {!this.props.birthday
+          ? <h1>Please Enter a Date</h1>
+          : this.renderTimes()
+        }
       </div>
 
     )
