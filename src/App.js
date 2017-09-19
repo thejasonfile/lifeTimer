@@ -1,18 +1,36 @@
-import React from 'react';
-import {Switch, BrowserRouter, Route} from 'react-router-dom'
+import React, {Component} from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 import DateForm from './DateForm';
 import Results from './Results';
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path='/' component={DateForm}></Route>
-        <Route exact path='/results' component={Results}></Route>
-      </Switch>
-    </BrowserRouter>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      birthday: ''
+    };
+
+    this.calculateBirthday = this.calculateBirthday.bind(this);
+  }
+
+  calculateBirthday(year, month, date) {
+    var birthdayDate = new Date(year, month, date);
+    this.setState({birthday: birthdayDate.getTime()});
+  }
+
+  render() {
+    return (
+      <Router>
+        <div>
+          <Route path='/' render={() =>  <DateForm calculateBirthday={this.calculateBirthday} />
+          }></Route>
+        <Route path='/results' render={() => <Results birthday={this.state.birthday} />}></Route>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
