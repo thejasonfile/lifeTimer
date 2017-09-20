@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   calculateBirthday(year, month, date) {
-    var birthdayUnix = moment(`${year}-${month}-${date}`, "YYYY-MM-DD").valueOf();
+    var birthdayUnix = moment(`${year}-${month}-${date}`, "YYYY-MM-DD").unix();
     this.setState({birthdayUnix});
   }
 
