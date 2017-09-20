@@ -16,6 +16,7 @@ class DateForm extends Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validDate = this.validDate.bind(this);
   }
 
   handleMonthChange(event) {
@@ -31,7 +32,15 @@ class DateForm extends Component {
   }
 
   handleSubmit(e){
-    this.props.calculateBirthday(this.state.year, this.state.month, this.state.date)
+      this.props.calculateBirthday(this.state.year, this.state.month, this.state.date)
+  }
+
+  validDate() {
+    if(this.state.date && this.state.year) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   monthsList() {
@@ -54,15 +63,16 @@ class DateForm extends Component {
   render() {
     return (
       <div className="DateForm">
+        <h1>Enter your birthday</h1>
         <form>
-          <label>Month</label>
-          <select value={this.state.month} onChange={this.handleMonthChange}>
+          <label htmlFor="month">Month</label>
+          <select id="month" value={this.state.month} onChange={this.handleMonthChange}>
             {this.monthsList().map(month => <option key={month.value} value={month.value}>{month.name}</option>
             )}
           </select>
-        <label>Date</label>
+        <label htmlFor="date">Date</label>
         <input type="number" value={this.state.date} onChange={this.handleDateChange} />
-          <label>Year</label>
+          <label htmlFor="year">Year</label>
           <input type="number" value={this.state.year} onChange={this.handleYearChange} />
         <Link to='/results' onClick={this.handleSubmit}><button>Submit</button></Link>
         </form>

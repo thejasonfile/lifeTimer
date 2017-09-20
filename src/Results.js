@@ -58,7 +58,7 @@ class Results extends Component {
     return(
       <div>
         {!this.props.birthday
-          ? <h1>Please Enter a Date</h1>
+          ? <h1>Enter your birthday</h1>
           : this.renderTimes()
         }
       </div>

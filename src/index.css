@@ -2,4 +2,25 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  text-align: center;
+}
+
+.DateForm,
+.DateForm form {
+  display: flex;
+  align-items: center;
+}
+
+.DateForm  {
+  flex-direction: column;
+  margin-bottom: 2em;
+}
+
+.DateForm label {
+  margin-right: 1em;
+}
+
+.DateForm input,
+.DateForm select {
+  margin-right: 2em;
 }
