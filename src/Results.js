@@ -14,11 +14,9 @@ class Results extends Component {
     this.calculateSecondsLeft = this.calculateSecondsLeft.bind(this);
   }
 
-  componentWillMount() {
-    if(this.props.birthday) {
-      this.interval = setInterval(() => this.calculateSecondsAlive(), 1000);
-      this.interval2 = setInterval(() => this.calculateSecondsLeft(), 1000);
-    }
+  componentDidMount() {
+    this.interval = setInterval(() => this.calculateSecondsAlive(), 1000);
+    this.interval2 = setInterval(() => this.calculateSecondsLeft(), 1000);
   }
 
   componentWillUnmount() {
@@ -26,20 +24,24 @@ class Results extends Component {
     clearInterval(this.interval2);
   }
 
+  calculateNowUnix() {
+    return moment().unix();
+  }
+
   calculateSecondsAlive() {
-    var now = moment().unix();
-    var secondsAlive = (now - this.props.birthday);
+    var nowUnix = this.calculateNowUnix()   ;
+    var secondsAlive = (nowUnix - this.props.birthday);
     secondsAlive = secondsAlive.toLocaleString();
     this.setState({secondsAlive});
   };
 
   calculateSecondsLeft() {
-    var nowUnix = moment().valueOf();
+    var nowUnix = this.calculateNowUnix();
     var birthday = this.props.birthday;
-    var deathTime = moment(birthday).add(78, 'years');
-    var secondsLeft = moment(deathTime - nowUnix);
-    //this.setState({secondsLeft});
-    // debugger;
+    var deathTime = moment(birthday).add(78, 'years').unix();
+    var secondsLeft = moment(deathTime - nowUnix)._i;
+    secondsLeft = secondsLeft.toLocaleString();
+    this.setState({secondsLeft});
   }
 
   renderTimes() {
@@ -47,7 +49,7 @@ class Results extends Component {
       <div>
         <h1>You've been alive for {this.state.secondsAlive} seconds.</h1>
         <h1>You've spent {this.props.timeOnSite} of those seconds here.</h1>
-        <h1>On average you have {this.state.secondsLeft} seconds left. </h1>
+        <h1>On average you have {this.state.secondsLeft} seconds left in your life.  Make them count! </h1>
       </div>
     )
   }
