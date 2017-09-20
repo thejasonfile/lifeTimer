@@ -12,14 +12,12 @@ class Results extends Component {
     };
 
     this.calculateDifference = this.calculateDifference.bind(this);
-    this.calculateTimeOnSite = this.calculateTimeOnSite.bind(this);
     this.calculateSecondsLeft = this.calculateSecondsLeft.bind(this);
   }
 
   componentDidMount() {
     this.interval = setInterval(() => this.calculateDifference(), 1000);
-    this.interval2 = setInterval(() => this.calculateTimeOnSite(), 1000);
-    this.interval3 = setInterval(() => this.calculateSecondsLeft(), 1000);
+    this.interval2 = setInterval(() => this.calculateSecondsLeft(), 1000);
   }
 
   componentWillUnmount() {
@@ -36,19 +34,19 @@ class Results extends Component {
   };
 
   calculateSecondsLeft() {
-    var now = moment().valueOf();
-    var birthday = this.props.birthday;
-    var deathTime = moment(birthday).add(78, 'years');
-    var secondsLeft = moment(deathTime - now);
+    // var now = moment().valueOf();
+    // var birthday = this.props.birthday;
+    // var deathTime = moment(birthday).add(78, 'years');
+    // var secondsLeft = moment(deathTime - now);
     //this.setState({secondsLeft});
-    debugger;
+    // debugger;
   }
 
   renderTimes() {
     return (
       <div>
         <h1>You've been alive for {this.state.difference} seconds.</h1>
-        <h1>You've spent {this.state.timeOnSite} of those seconds here.</h1>
+        <h1>You've spent {this.props.timeOnSite} of those seconds here.</h1>
         <h1>On average you have {this.state.secondsLeft} seconds left. </h1>
       </div>
     )

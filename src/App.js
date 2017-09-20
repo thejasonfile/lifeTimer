@@ -11,23 +11,30 @@ class App extends Component {
 
     this.state = {
       timeOnSite: 0,
-      birthday: ''
+      birthdayUnix: ''
     };
 
     this.calculateBirthday = this.calculateBirthday.bind(this);
     this.calculateTimeOnSite = this.calculateTimeOnSite.bind(this);
   }
 
+  componentDidMount() {
+    this.interval = setInterval(() => this.calculateTimeOnSite(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   calculateTimeOnSite() {
-    var currentTime = this.state.timeOnSite;
-    var newTime = Number(currentTime) + 1;
-    newTime = newTime.toLocaleString();
-    this.setState({timeOnSite: newTime});
+    var currentTime = Number(this.state.timeOnSite) + 1;
+    currentTime = currentTime.toLocaleString();
+    this.setState({timeOnSite: currentTime});
   }
 
   calculateBirthday(year, month, date) {
-    var birthdayDate = new Date(year, month, date);
-    this.setState({birthday: birthdayDate.getTime()});
+    var birthdayUnix = moment(`${year}-${month}-${date}`, "YYYY-MM-DD").valueOf();
+    this.setState({birthdayUnix});
   }
 
   render() {
@@ -36,7 +43,7 @@ class App extends Component {
         <div>
           <Route path='/' render={() =>  <DateForm calculateBirthday={this.calculateBirthday} />
           }></Route>
-        <Route path='/results' render={() => <Results birthday={this.state.birthday} timeOnSite={this.state.timeOnSite}/>}></Route>
+        <Route path='/results' render={() => <Results birthday={this.state.birthdayUnix} timeOnSite={this.state.timeOnSite}/>}></Route>
         </div>
       </Router>
     );
