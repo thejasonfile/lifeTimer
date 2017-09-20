@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 
 class Results extends Component {
   constructor(props) {
@@ -6,16 +7,19 @@ class Results extends Component {
 
     this.state = {
       difference: '',
-      timeOnSite: 0
+      timeOnSite: 0,
+      secondsLeft: 0
     };
 
     this.calculateDifference = this.calculateDifference.bind(this);
     this.calculateTimeOnSite = this.calculateTimeOnSite.bind(this);
+    this.calculateSecondsLeft = this.calculateSecondsLeft.bind(this);
   }
 
   componentDidMount() {
     this.interval = setInterval(() => this.calculateDifference(), 1000);
     this.interval2 = setInterval(() => this.calculateTimeOnSite(), 1000);
+    this.interval3 = setInterval(() => this.calculateSecondsLeft(), 1000);
   }
 
   componentWillUnmount() {
@@ -31,11 +35,13 @@ class Results extends Component {
     this.setState({difference});
   };
 
-  calculateTimeOnSite() {
-    var currentTime = this.state.timeOnSite;
-    var newTime = Number(currentTime) + 1;
-    newTime = newTime.toLocaleString();
-    this.setState({timeOnSite: newTime});
+  calculateSecondsLeft() {
+    var now = moment().valueOf();
+    var birthday = this.props.birthday;
+    var deathTime = moment(birthday).add(78, 'years');
+    var secondsLeft = moment(deathTime - now);
+    //this.setState({secondsLeft});
+    debugger;
   }
 
   renderTimes() {
@@ -43,6 +49,7 @@ class Results extends Component {
       <div>
         <h1>You've been alive for {this.state.difference} seconds.</h1>
         <h1>You've spent {this.state.timeOnSite} of those seconds here.</h1>
+        <h1>On average you have {this.state.secondsLeft} seconds left. </h1>
       </div>
     )
   }
