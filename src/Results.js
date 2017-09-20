@@ -47,7 +47,7 @@ class Results extends Component {
   renderTimes() {
     return (
       <div>
-        <h1>You've been alive for {this.state.secondsAlive} seconds.</h1>
+        <h1>You've been alive for approximately {this.state.secondsAlive} seconds.</h1>
         <h1>You've spent {this.props.timeOnSite} of those seconds here.</h1>
         <h1>On average you have {this.state.secondsLeft} seconds left in your life.  Make them count! </h1>
       </div>

@@ -73,7 +73,7 @@ class DateForm extends Component {
         <input type="number" value={this.state.date} onChange={this.handleDateChange} />
           <label htmlFor="year">Year</label>
           <input type="number" value={this.state.year} onChange={this.handleYearChange} />
-        <Link to='/results' onClick={this.handleSubmit}><button>Submit</button></Link>
+        <Link to='/results' onClick={this.handleSubmit}><button className="btn btn-primary">Submit</button></Link>
         </form>
       </div>
     )
